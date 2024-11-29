@@ -63,10 +63,10 @@ class Params(Base):
     N: Mapped[float] = mapped_column()
     n_1: Mapped[float] = mapped_column()
     n_2: Mapped[float] = mapped_column()
-    phi: Mapped[float] = mapped_column()
+    phi_p: Mapped[float] = mapped_column()
     cable_type: Mapped[str] = mapped_column()
     delta_small: Mapped[float] = mapped_column()
-
+    T_1: Mapped[float] = mapped_column()
 
     m: Mapped[int] = mapped_column()
     b: Mapped[float] = mapped_column()
@@ -86,4 +86,3 @@ class Params(Base):
     C: Mapped[float] = mapped_column()
     F: Mapped[float] = mapped_column()
     i: Mapped[float] = mapped_column()
-    T_1: Mapped[float] = mapped_column()
