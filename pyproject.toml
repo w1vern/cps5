@@ -6,9 +6,10 @@ authors = ["w1vern <bndvvl@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.14"
 sqlalchemy = "^2.0.36"
 aiosqlite = "^0.20.0"
+pyside6 = "^6.8.1"
 
 
 [build-system]

@@ -4,7 +4,7 @@ import uuid
 
 from sqlalchemy import ForeignKey
 from database import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class Table_3_1(Base):
@@ -56,53 +56,62 @@ class Table_3_5(Base):
     cable_type: Mapped[str] = mapped_column()
     i: Mapped[float] = mapped_column()
 
-class Node(Base):
-    __tablename__ = "node"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+class Node(Base):
+    __tablename__ = "nodes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
 
 class AssemblyUnit(Base):
-    __tablename__ = "assembly_unit"
+    __tablename__ = "assembly_units"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
-    node_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("node.id"))
+    id: Mapped[int] = mapped_column(primary_key=True)
+    node_id: Mapped[int] = mapped_column(ForeignKey("nodes.id"))
 
-    delta_small: Mapped[float] = mapped_column()
-    m: Mapped[int] = mapped_column()
-    u: Mapped[float] = mapped_column()
-    min_a: Mapped[float] = mapped_column()
-    max_a: Mapped[float] = mapped_column()
-    a: Mapped[float] = mapped_column()
-    a_real: Mapped[float] = mapped_column()
-    C_1: Mapped[float] = mapped_column()
-    C_2: Mapped[float] = mapped_column()
-    delta_big: Mapped[float] = mapped_column()
+    NSE: Mapped[str] = mapped_column()
+    TSE: Mapped[str] = mapped_column()
+    VSE: Mapped[str] = mapped_column()
+    i: Mapped[int] = mapped_column(nullable=True)
+    m: Mapped[int] = mapped_column(nullable=True)
+    u: Mapped[float] = mapped_column(nullable=True)
+    a_min: Mapped[float] = mapped_column(nullable=True)
+    a_max: Mapped[float] = mapped_column(nullable=True)
+    a: Mapped[float] = mapped_column(nullable=True)
+    delta_small: Mapped[float] = mapped_column(nullable=True)
+    delta_big: Mapped[float] = mapped_column(nullable=True)
 
-    node: Mapped[Node] = mapped_column(foreign_keys=[node_id])
+    node: Mapped[Node] = relationship(foreign_keys=[node_id])
 
 
 class Part(Base):
-    __tablename__ = "part"
+    __tablename__ = "parts"
 
     part_name: Mapped[str] = mapped_column(primary_key=True)
-    assembly_unit_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("assembly_unit.id"), primary_key=True)
+    assembly_unit_id: Mapped[int] = mapped_column(
+        ForeignKey("assembly_units.id"), primary_key=True)
 
-    b: Mapped[float] = mapped_column()
-    z_1: Mapped[int] = mapped_column()
-    z_2: Mapped[int] = mapped_column()
-    N: Mapped[float] = mapped_column()
-    n_1: Mapped[float] = mapped_column()
-    n_2: Mapped[float] = mapped_column()
-    phi_p: Mapped[float] = mapped_column()
-    cable_type: Mapped[str] = mapped_column()
-    z_p: Mapped[int] = mapped_column()
-    t_p: Mapped[float] = mapped_column()
-    L_p: Mapped[float] = mapped_column()
-    T_1: Mapped[float] = mapped_column()
-    F: Mapped[float] = mapped_column()
-    i: Mapped[float] = mapped_column()
-    d_a_1: Mapped[float] = mapped_column()
-    d_a_2: Mapped[float] = mapped_column()
-    Lambda: Mapped[float] = mapped_column()
+    ND: Mapped[str] = mapped_column()
+    NaD: Mapped[str] = mapped_column(nullable=True)
+    b: Mapped[float] = mapped_column(nullable=True)
+    z_1: Mapped[int] = mapped_column(nullable=True)
+    z_2: Mapped[int] = mapped_column(nullable=True)
+    N: Mapped[float] = mapped_column(nullable=True)
+    n_1: Mapped[float] = mapped_column(nullable=True)
+    n_2: Mapped[float] = mapped_column(nullable=True)
+    phi_p: Mapped[float] = mapped_column(nullable=True)
+    cable_type: Mapped[str] = mapped_column(nullable=True)
+    z_p: Mapped[int] = mapped_column(nullable=True)
+    t_p: Mapped[float] = mapped_column(nullable=True)
+    L_p: Mapped[float] = mapped_column(nullable=True)
+    T_1: Mapped[float] = mapped_column(nullable=True)
+    F: Mapped[float] = mapped_column(nullable=True)
+    i: Mapped[float] = mapped_column(nullable=True)
+    d_a1: Mapped[float] = mapped_column(nullable=True)
+    d_a2: Mapped[float] = mapped_column(nullable=True)
+    Lambda: Mapped[float] = mapped_column(nullable=True)
+    C_1: Mapped[float] = mapped_column(nullable=True)
+    C_2: Mapped[float] = mapped_column(nullable=True)
 
-    assembly_unit: Mapped[AssemblyUnit] = mapped_column(foreign_keys=[assembly_unit_id])
+    assembly_unit: Mapped[AssemblyUnit] = relationship(
+        foreign_keys=[assembly_unit_id])

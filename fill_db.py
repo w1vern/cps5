@@ -1,14 +1,12 @@
 
 
-import asyncio
-from re import L
 from database import session_manager
 from database import create_db_and_tables
 from models import *
 
 
-async def main():
-    await create_db_and_tables()
+def main():
+    create_db_and_tables()
     table_3_1 = [Table_3_1(m=2, t_p=6.283),
                  Table_3_1(m=3, t_p=9.425),
                  Table_3_1(m=4, t_p=12.566),
@@ -243,14 +241,14 @@ async def main():
     table_3_5.append(Table_3_5(m=7, cable_type="1x21", i=0.0019))
     table_3_5.append(Table_3_5(m=10, cable_type="1x21", i=0.0025))
 
-    async with session_manager.session() as session:
+    with session_manager.session() as session:
         session.add_all(table_3_1)
         session.add_all(table_3_2)
         session.add_all(table_3_3)
         session.add_all(table_3_4)
         session.add_all(table_3_5)
-        await session.flush()
+        session.flush()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
