@@ -87,9 +87,9 @@ class AssemblyUnit(Base):
 class Part(Base):
     __tablename__ = "parts"
 
-    part_name: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     assembly_unit_id: Mapped[int] = mapped_column(
-        ForeignKey("assembly_units.id"), primary_key=True)
+        ForeignKey("assembly_units.id"))
 
     ND: Mapped[str] = mapped_column()
     NaD: Mapped[str] = mapped_column(nullable=True)
