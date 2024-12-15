@@ -9,19 +9,14 @@ from sqlalchemy.orm import DeclarativeBase
 import contextlib
 from typing import Any, AsyncIterator
 
-# Загрузка переменных окружения
-
-# URL для SQLite
 DATABASE_URL = "sqlite+aiosqlite:///.db"
 
-# Базовый класс для моделей
 class Base(DeclarativeBase):
     pass
 
 
 class DatabaseSessionManager:
     def __init__(self, host: str, engine_kwargs: dict[str, Any] = {}):
-        # Создание асинхронного подключения
         self._engine = create_async_engine(
             host, connect_args={"check_same_thread": False}, **engine_kwargs
         )
@@ -64,17 +59,14 @@ class DatabaseSessionManager:
             await session.close()
 
 
-# Создание менеджера сессий
 session_manager = DatabaseSessionManager(DATABASE_URL, {"echo": False})
 
 
-# Генератор для получения сессии
 async def get_db_session():
     async with session_manager.session() as session:
         yield session
 
 
-# Создание базы данных и таблиц
 async def create_db_and_tables():
     async with session_manager.connect() as conn:
         await conn.run_sync(Base.metadata.create_all)
